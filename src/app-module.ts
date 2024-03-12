@@ -5,6 +5,11 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
+
+import {AccountModule} from './account/account.module'
+
 
 @Module({
   imports: [
@@ -14,8 +19,24 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
+    MongooseModule.forRoot('mongodb://localhost:27017/testGraphqlApiDb'),
+    //MongooseModule.forRootAsync({
+    //  imports: [ConfigModule],
+    //  inject: [ConfigService],
+    //  useFactory: (configService: ConfigService) => {
+    //    // CHECK IF YOU GET WHAT IS EXPECTED
+    //    console.log('ENV VAR', configService.get('mongodb://localhost:27017/testGraphqlApiDb'));
+    //    const options: MongooseModuleOptions = {
+    //      uri: configService.get<string>('mongodb://localhost:27017/testGraphqlApiDb'),
+    //    };
+    //    return options;
+    //  },
+    //}),
+    AccountModule,
+    ConfigModule.forRoot({
+      cache: true,
+    }),
   ],
-  controllers: [],
   providers: [AppService, AppResolver],
 })
 export class AppModule {}

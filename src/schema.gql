@@ -2,6 +2,25 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Account implements Node {
+  id: String!
+  firstname: String!
+  lastname: String!
+  emailAddress: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+interface Node {
+  id: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
   getHello: String!
+  findAll: [Account!]!
 }

@@ -1,37 +1,40 @@
 import { Module } from '@nestjs/common';
-import { AppResolver } from './app-resolver';
+import { AppResolver } from './app/resolvers/app-resolver';
 import { AppService } from './app-service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
-import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+//import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
-
-import {AccountModule} from './account/account.module'
-
+import { MongooseModule} from '@nestjs/mongoose';
+import {DateTimeResolver,EmailAddressResolver} from 'graphql-scalars';
+import {BinaryScalarResolver} from './app/scalars/binary-scalar-resolver';
+import {AccountModule} from './account/account.module';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+    GraphQLModule.forRootAsync({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      playground: false,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      useFactory:() => ({
+        autoSchemaFile: join(process.cwd(), 'src/schema.gql'), 
+        playground: true,
+        //plugins: [ApolloServerPluginLandingPageLocalDefault()],
+        resolvers: [
+          {DateTime:DateTimeResolver},
+          {EmailAddress:EmailAddressResolver},
+          {Binary:BinaryScalarResolver}
+        ]
+      }),
     }),
-    MongooseModule.forRoot('mongodb://localhost:27017/testGraphqlApiDb'),
-    //MongooseModule.forRootAsync({
-    //  imports: [ConfigModule],
-    //  inject: [ConfigService],
-    //  useFactory: (configService: ConfigService) => {
-    //    // CHECK IF YOU GET WHAT IS EXPECTED
-    //    console.log('ENV VAR', configService.get('mongodb://localhost:27017/testGraphqlApiDb'));
-    //    const options: MongooseModuleOptions = {
-    //      uri: configService.get<string>('mongodb://localhost:27017/testGraphqlApiDb'),
-    //    };
-    //    return options;
-    //  },
-    //}),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        return {
+          uri: configService.get<string>('MONGODB_URI'),
+        }
+      },
+    }),
     AccountModule,
     ConfigModule.forRoot({
       cache: true,

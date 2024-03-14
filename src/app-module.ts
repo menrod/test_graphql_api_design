@@ -10,7 +10,8 @@ import { MongooseModule} from '@nestjs/mongoose';
 import {DateTimeResolver,EmailAddressResolver} from 'graphql-scalars';
 import {BinaryScalarResolver} from './app/scalars/binary-scalar-resolver';
 import {AccountModule} from './account/account.module';
-
+import {ProductModule} from './product/product.module';
+import {AuthenticationModule} from './authentication/authentication.module';
 @Module({
   imports: [
     GraphQLModule.forRootAsync({
@@ -36,6 +37,8 @@ import {AccountModule} from './account/account.module';
       },
     }),
     AccountModule,
+    ProductModule,
+    AuthenticationModule,
     ConfigModule.forRoot({
       cache: true,
     }),

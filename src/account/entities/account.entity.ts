@@ -8,7 +8,7 @@ import {BinaryScalarResolver} from '../../app/scalars/binary-scalar-resolver';
 @ObjectType({ implements: Node })
 @Schema()
 export class Account implements Node{
-  @Field((type) => BinaryScalarResolver) // Decorate other fields as needed
+  @Field((type) => BinaryScalarResolver)
   id: Buffer;
 
   @Field()
@@ -27,5 +27,5 @@ export class Account implements Node{
   updatedAt: Date;
 }
 export type AccountDocument = Account & Document;
- export const AccountSchema = SchemaFactory.createForClass(Account);
+export const AccountSchema = SchemaFactory.createForClass(Account);
 

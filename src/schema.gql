@@ -28,7 +28,61 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+type Product implements Node {
+  id: Binary!
+  name: String!
+  description: String!
+  owner: Account!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Authentication {
+  token: String!
+}
+
 type Query {
   getHello: String!
   findAll: [Account!]!
+  product(id: Int!): Product!
+  authentication(id: Int!): Authentication!
+}
+
+type Mutation {
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(id: Int!): Product!
+  createAuthentication(createAuthenticationInput: CreateAuthenticationInput!): Authentication!
+  updateAuthentication(updateAuthenticationInput: UpdateAuthenticationInput!): Authentication!
+  removeAuthentication(id: Int!): Authentication!
+  signUp(input: SignUpInput!): Authentication!
+}
+
+input CreateProductInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateProductInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateAuthenticationInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateAuthenticationInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input SignUpInput {
+  emailAddress: EmailAddress!
+  firstname: String!
+  lastname: String!
+  password: String!
 }

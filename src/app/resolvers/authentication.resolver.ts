@@ -3,11 +3,15 @@ import { AuthenticationService } from '../../authentication/authentication.servi
 import { Authentication } from '../../authentication/entities/authentication.entity';
 import { CreateAuthenticationInput } from '../../authentication/dto/create-authentication.input';
 import { UpdateAuthenticationInput } from '../../authentication/dto/update-authentication.input';
-import { SignUpInput } from 'src/authentication/dto/signup-input';
+import { SignUpInput } from '../dto/signup-input';
+import { error } from 'console';
+import { AppService } from '../app-service';
 
 @Resolver(() => Authentication)
 export class AuthenticationResolver {
-  constructor(private readonly authenticationService: AuthenticationService) {}
+  constructor(
+    private readonly authenticationService: AuthenticationService
+  ) {}
 
   @Mutation(() => Authentication)
   createAuthentication(@Args('createAuthenticationInput') createAuthenticationInput: CreateAuthenticationInput) {
@@ -33,9 +37,14 @@ export class AuthenticationResolver {
   removeAuthentication(@Args('id', { type: () => Int }) id: number) {
     return this.authenticationService.remove(id);
   }
-
-  @Mutation(() => Authentication)
+  /*
+  @Query('signUp')
   signUp(@Args('input') input: SignUpInput){
-    return this.authenticationService.signUp(input);    
+    try {
+      return this.appService.signUp(input);
+    } catch (error) {
+      throw error;
+    }
   }
+  */
 }

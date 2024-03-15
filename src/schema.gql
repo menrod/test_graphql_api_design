@@ -15,7 +15,7 @@ interface Node {
   id: Binary!
 }
 
-"""A simple UUID parser"""
+"""A simple Binary parser"""
 scalar Binary
 
 """
@@ -49,13 +49,26 @@ type Query {
 }
 
 type Mutation {
+  signUp(input: SignUpInput!): Authentication!
+  authenticate(input: AuthenticateInput!): Authentication!
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   removeProduct(id: Int!): Product!
   createAuthentication(createAuthenticationInput: CreateAuthenticationInput!): Authentication!
   updateAuthentication(updateAuthenticationInput: UpdateAuthenticationInput!): Authentication!
   removeAuthentication(id: Int!): Authentication!
-  signUp(input: SignUpInput!): Authentication!
+}
+
+input SignUpInput {
+  emailAddress: EmailAddress!
+  firstname: String!
+  lastname: String!
+  password: String!
+}
+
+input AuthenticateInput {
+  emailAddress: EmailAddress!
+  password: String!
 }
 
 input CreateProductInput {
@@ -78,11 +91,4 @@ input UpdateAuthenticationInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!
-}
-
-input SignUpInput {
-  emailAddress: EmailAddress!
-  firstname: String!
-  lastname: String!
-  password: String!
 }

@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAuthenticationInput } from './dto/create-authentication.input';
 import { UpdateAuthenticationInput } from './dto/update-authentication.input';
-import { SignUpInput } from './dto/signup-input';
-
 
 @Injectable()
 export class AuthenticationService {
@@ -24,9 +22,5 @@ export class AuthenticationService {
 
   remove(id: number) {
     return `This action removes a #${id} authentication`;
-  }
-
-  signUp(signUpInput: SignUpInput){
-    return 'signup';
   }
 }

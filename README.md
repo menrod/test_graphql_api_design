@@ -9,6 +9,8 @@
 - [x] add custome binary scalar to the graphql module
 - [x] use forRootAsync for the graphql module
 - [x] add product and authentication
+- [x] move app.module to app folder
 - [ ] implement queries
-- [ ] implement mutations
-- [ ] implement directive
+- [x] implement mutations authorization
+- [ ] implement mutations 
+- [x] implement directive

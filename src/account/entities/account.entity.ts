@@ -1,5 +1,4 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Document, Schema as MongooSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Node } from 'src/interfaces/Node';
 import {DateTimeResolver,EmailAddressResolver} from 'graphql-scalars';
@@ -8,24 +7,29 @@ import {BinaryScalarResolver} from '../../app/scalars/binary-scalar-resolver';
 @ObjectType({ implements: Node })
 @Schema()
 export class Account implements Node{
-  @Field((type) => BinaryScalarResolver)
+  @Field(() => BinaryScalarResolver)
+  @Prop()
   id: Buffer;
 
   @Field()
+  @Prop()
   firstname: string;
 
   @Field()
+  @Prop()
   lastname: string;
 
-  @Field((type) => EmailAddressResolver)
+  @Field(() => EmailAddressResolver)
+  @Prop()
   emailAddress: string;
 
-  @Field((type) => DateTimeResolver)
+  @Field(() => DateTimeResolver)
+  @Prop()
   createdAt: Date;
 
-  @Field((type) => DateTimeResolver)
+  @Field(() => DateTimeResolver)
+  @Prop()
   updatedAt: Date;
 }
-export type AccountDocument = Account & Document;
 export const AccountSchema = SchemaFactory.createForClass(Account);
 

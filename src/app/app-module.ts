@@ -21,6 +21,8 @@ import { Authentication, AuthenticationSchema } from '../authentication/entities
 
 import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './auth/auth-service';
+import { privateDirectiveTransformer } from './auth/private-directive';
+import { DirectiveLocation, GraphQLDirective } from 'graphql';
 
 
 @Module({
@@ -37,7 +39,16 @@ import { AuthService } from './auth/auth-service';
     GraphQLModule.forRootAsync({
       driver: ApolloDriver,
       useFactory:() => ({
-        autoSchemaFile: join(process.cwd(), 'src/schema.gql'), 
+        autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+        transformSchema: (schema) => privateDirectiveTransformer(schema, 'private'),
+        buildSchemaOptions: {
+          directives: [
+            new GraphQLDirective({
+              name: 'private',
+              locations: [DirectiveLocation.FIELD_DEFINITION],
+            }),
+          ],
+        },
         playground: false,
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
         resolvers: [

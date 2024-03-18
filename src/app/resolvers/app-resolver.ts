@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Directive,Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AppService } from '../app-service';
 import { SignUpInput } from '../dto/signup-input';
 import { Authentication } from 'src/authentication/entities/authentication.entity';
@@ -8,6 +8,7 @@ import { AuthenticateInput } from '../dto/authenticate-input';
 export class AppResolver {
   constructor(private readonly appService: AppService) {}
 
+  @Directive('@private')
   @Query(() => String)
   getHello(): string {
     return this.appService.getHello();

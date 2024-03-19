@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Directive, ObjectType, Field, Int } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Node } from 'src/interfaces/Node';
 import {DateTimeResolver,EmailAddressResolver} from 'graphql-scalars';
@@ -6,6 +6,7 @@ import {BinaryScalarResolver} from '../../app/scalars/binary-scalar-resolver';
 
 @ObjectType({ implements: Node })
 @Schema()
+@Directive('@private')
 export class Account implements Node{
   @Field(() => BinaryScalarResolver)
   @Prop()

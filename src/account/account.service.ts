@@ -11,6 +11,9 @@ export class AccountService {
   create(createAccountInput: CreateAccountInput) {
     return 'This action adds a new account';
   }
+  async findByEmail(email:string):Promise<Account>{
+    return await this.account.findOne({'emailAddress':email}).exec();
+  }
 
   findAll() {
     return `This action returns all account`;

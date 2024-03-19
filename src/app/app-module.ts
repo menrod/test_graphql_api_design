@@ -45,7 +45,7 @@ import { DirectiveLocation, GraphQLDirective } from 'graphql';
           directives: [
             new GraphQLDirective({
               name: 'private',
-              locations: [DirectiveLocation.FIELD_DEFINITION],
+              locations: [DirectiveLocation.OBJECT,DirectiveLocation.FIELD_DEFINITION],
             }),
           ],
         },

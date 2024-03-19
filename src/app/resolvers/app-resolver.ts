@@ -1,4 +1,4 @@
-import { Directive,Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Context, Directive,Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AppService } from '../app-service';
 import { SignUpInput } from '../dto/signup-input';
 import { Authentication } from 'src/authentication/entities/authentication.entity';
@@ -10,7 +10,9 @@ export class AppResolver {
 
   @Directive('@private')
   @Query(() => String)
-  getHello(): string {
+  getHello(@Context() context): string {
+    const claims = context['claims'];
+    console.log(claims)
     return this.appService.getHello();
   }
 

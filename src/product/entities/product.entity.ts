@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Directive, ObjectType, Field, Int } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Account } from 'src/account/entities/account.entity';
 import {DateTimeResolver} from 'graphql-scalars';
@@ -8,7 +8,7 @@ import { Document } from 'mongoose';
 @ObjectType({ implements: Node })
 @Schema()
 export class Product implements Node{
-  @Field((type) => BinaryScalarResolver)
+  @Field(() => BinaryScalarResolver)
   @Prop()
   id: Buffer;
 
@@ -20,15 +20,16 @@ export class Product implements Node{
   @Prop()
   description: string;
 
-  @Field()
+  @Directive('@private')
+  @Field(() => Account)
   @Prop()
   owner: Account;
 
-  @Field((type) => DateTimeResolver)
+  @Field(() => DateTimeResolver)
   @Prop()
   createdAt: Date;
 
-  @Field((type) => DateTimeResolver)
+  @Field(() => DateTimeResolver)
   @Prop()
   updatedAt: Date;
 }

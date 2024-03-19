@@ -2,7 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-directive @private on FIELD_DEFINITION
+directive @private on OBJECT | FIELD_DEFINITION
 
 type Account implements Node {
   id: Binary!
@@ -45,7 +45,7 @@ type Authentication {
 
 type Query {
   getHello: String!
-  findAll: [Account!]!
+  me: Account!
   product(id: Int!): Product!
   authentication(id: Int!): Authentication!
 }
@@ -55,7 +55,7 @@ type Mutation {
   authenticate(input: AuthenticateInput!): Authentication!
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
-  removeProduct(id: Int!): Product!
+  deleteProduct(DeleteProductInput: DeleteProductInput!): Product!
   createAuthentication(createAuthenticationInput: CreateAuthenticationInput!): Authentication!
   updateAuthentication(updateAuthenticationInput: UpdateAuthenticationInput!): Authentication!
   removeAuthentication(id: Int!): Authentication!
@@ -74,14 +74,22 @@ input AuthenticateInput {
 }
 
 input CreateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
+  description: String!
 }
 
 input UpdateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  id: Binary!
+  body: UpdateProductBody!
+}
+
+input UpdateProductBody {
+  name: String!
+  description: String!
+}
+
+input DeleteProductInput {
+  id: Binary!
 }
 
 input CreateAuthenticationInput {
